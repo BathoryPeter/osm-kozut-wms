@@ -1,0 +1,14 @@
+#
+# cron-jobs for updating Postgresql GIS DB ext schema
+#
+
+HOME=/home/osm/qgis-kozut-docker/
+LOGDIR=/var/log/osm/
+MAILTO=root
+
+# In every two hour between 7:00-23:00, refesh materialized views
+0 7-23/2 * * *	root	scripts/refresh_materialized_views.sh >> $LOGDIR/refresh_materialized_views.log
+
+# Every Friday at 3:00, update postgres ext schema from napportal 
+0 3 * * 5	root	scripts/napportal_import.sh >> $LOGDIR/napportal_import.log
+

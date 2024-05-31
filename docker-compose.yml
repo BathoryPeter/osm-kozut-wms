@@ -1,0 +1,29 @@
+version: '3.3'
+
+services:
+  qgis:
+    image: camptocamp/qgis-server:3.36
+    container_name: qgis-server-osm
+    restart: unless-stopped
+    volumes:
+      - .:/etc/qgisserver:ro
+    ports:
+      - "127.0.0.1:8090:80"
+    environment:
+      - PGSERVICEFILE=/etc/qgisserver/.pg_service.conf
+      - QGIS_SERVER_LANDING_PAGE_PROJECTS_DIRECTORIES=/etc/qgisserver/projects
+      - QGIS_SERVER_LANDING_PAGE_PREFIX=wms
+      - QGIS_SERVER_PARALLEL_RENDERING=false
+      - QGIS_SERVER_MAX_THREADS=1
+      - QGIS_SERVER_PROJECT_CACHE_CHECK_INTERVAL=30000
+      - QGIS_SERVER_TRUST_LAYER_METADATA=true
+      - QGIS_SERVER_FORCE_READONLY_LAYERS=true
+      - FCGID_MIN_PROCESSES=3
+      - FCGID_MAX_PROCESSES=6
+      - FCGID_IDLE_TIMEOUT=600
+      - TZ=Europe/Budapest
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "5"
