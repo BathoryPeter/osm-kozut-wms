@@ -11,11 +11,11 @@ You will also need docker, psql and ogr2ogr installed.
 ## Install
 
 ### Credentials
-Create `.pg_service.conf` file in the root directory of the project using template `.pg_service.conf.tmpl`. Create separate blocks for importer and WMS server. In the `[osm_hu_service_owner]` block enter the user who is the owner of the DB (usually the same as used in osm2pgsql).
+Create a `.pg_service.conf` file in the root directory of the project using template `.pg_service.conf.tmpl`. Create separate blocks for importer and WMS server. In the `[osm_hu_service_owner]` block enter the user who is the owner of the DB (usually the same as used in osm2pgsql).
 
 ### Preparing the DB
 
-Create schema and user, and set permissions. You can enter into psql using the service file: `psql -d 'service=osm_hu_service'
+Create schema and user, and set permissions. You can enter into psql using the service file: `psql -d 'service=osm_hu_service_owner'`
 
 ```SQL
 CREATE SCHEMA ext;
@@ -32,7 +32,7 @@ Run the importer script manually:
 
 Create materialized views:
 ```
-psql -d 'service=osm_hu_service -f sql/create_views.sql
+psql -d 'service=osm_hu_service_owner' -f sql/create_views.sql
 ```
 
 ### Starting the server
